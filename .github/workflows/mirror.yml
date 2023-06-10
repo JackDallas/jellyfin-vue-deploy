@@ -19,3 +19,5 @@ jobs:
           git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
           git fetch mirror +refs/heads/master:refs/remotes/origin/master || exit 1
           git push --force --mirror --prune origin || exit 1
+          sleep 3
+          curl -X POST -d '' "${{ secrets.DEPLOY_HOOK }}"
