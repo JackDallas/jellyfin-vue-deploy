@@ -13,11 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     name: mirror
     steps:
-      - name: Allow git safe directory
-        run: git config --global --add safe.directory /github/workspace
       - name: mirror
-        id: mirror
-        run: \
+        run: |
           git clone --bare "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" . || exit 1
           git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
           git fetch mirror +refs/heads/*:refs/remotes/origin/* || exit 1
