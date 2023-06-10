@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: mirror
         run: |
-          git clone --bare "https://JackDallas:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" . || exit 1
+          git clone --bare "https://JackDallas:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" . || exit 1
           git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
           git fetch mirror +refs/heads/*:refs/remotes/origin/* || exit 1
           git push --force --mirror --prune origin || exit 1
