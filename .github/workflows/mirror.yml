@@ -16,9 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     name: mirror
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
       - name: mirror
         run: |
-          git clone --bare "https://github.com/${GITHUB_REPOSITORY}.git" . || exit 1
           git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
           git fetch mirror +refs/heads/master:refs/remotes/origin/master || exit 1
           git push --force --mirror --prune origin || exit 1
