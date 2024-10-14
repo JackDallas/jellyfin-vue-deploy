@@ -8,6 +8,9 @@ on:
     - cron: '0 3 * * *'
   workflow_dispatch:
 
+permissions: 
+  contents: write
+
 jobs:
   mirror:
     runs-on: ubuntu-latest
@@ -15,7 +18,7 @@ jobs:
     steps:
       - name: mirror
         run: |
-          git clone --bare "https://JackDallas:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" . || exit 1
+          git clone --bare "https://github.com/${GITHUB_REPOSITORY}.git" . || exit 1
           git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
           git fetch mirror +refs/heads/master:refs/remotes/origin/master || exit 1
           git push --force --mirror --prune origin || exit 1
