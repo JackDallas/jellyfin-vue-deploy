@@ -41,7 +41,7 @@ jobs:
           git commit -m "remove workflows"
           git push origin master --force -v
 
-      - name: Force update master branch
+      - name: Triggering Deploy
         run: |
           echo "Waiting for GitHub to prop"
           sleep 3
