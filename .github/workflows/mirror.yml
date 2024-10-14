@@ -12,30 +12,27 @@ permissions:
   contents: write
 
 jobs:
-  mirror-and-push:
+  mirror:
     runs-on: ubuntu-latest
-    name: mirror-and-push
+    name: mirror
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Add remote and fetch
-        run: |
-          git remote add upstream "https://github.com/jellyfin/jellyfin-vue.git"
-          git fetch upstream
-
       - name: Configure Git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-      - name: Update local master
+      - name: Fetch upstream
+        run: |
+          git remote add upstream "https://github.com/jellyfin/jellyfin-vue.git"
+          git fetch upstream
+
+      - name: Force update master branch
         run: |
           git checkout master
-          git merge upstream/master
-
-      - name: Push to origin
-        run: |
-          git push origin master
+          git reset --hard upstream/master
+          git push origin master --force
