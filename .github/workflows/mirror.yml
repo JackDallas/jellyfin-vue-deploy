@@ -10,8 +10,6 @@ on:
 
 permissions: 
   contents: write
-  actions: write
-  statuses: write 
 
 jobs:
   mirror:
@@ -34,19 +32,11 @@ jobs:
           git fetch upstream
           git fetch origin
 
-      - name: Debug information
-        run: |
-          echo "Current branch:"
-          git branch --show-current
-          echo "All branches:"
-          git branch -a
-          echo "Remote branches:"
-          git branch -r
-
       - name: Force update master branch
         run: |
           git checkout -b master || git checkout master
           git reset --hard upstream/master
-          git status
-          git branch
+          rm -rf .github
+          git add .github
+          git commit -m "remove workflows"
           git push origin master --force -v
