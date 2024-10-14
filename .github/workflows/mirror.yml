@@ -10,6 +10,7 @@ on:
 
 permissions: 
   contents: write
+
 jobs:
   mirror:
     runs-on: ubuntu-latest
@@ -29,8 +30,21 @@ jobs:
         run: |
           git remote add upstream "https://github.com/jellyfin/jellyfin-vue.git"
           git fetch upstream
+          git fetch origin
 
-      - name: Force update default branch
+      - name: Debug information
         run: |
+          echo "Current branch:"
+          git branch --show-current
+          echo "All branches:"
+          git branch -a
+          echo "Remote branches:"
+          git branch -r
+
+      - name: Force update master branch
+        run: |
+          git checkout -b master || git checkout master
           git reset --hard upstream/master
-          git push origin master --force
+          git status
+          git branch
+          git push origin master --force -v
