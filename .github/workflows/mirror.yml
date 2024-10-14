@@ -1,4 +1,4 @@
-name: 'mirror'
+name: 'mirror-and-push'
 on:
   push:
     branches:
@@ -12,18 +12,30 @@ permissions:
   contents: write
 
 jobs:
-  mirror:
+  mirror-and-push:
     runs-on: ubuntu-latest
-    name: mirror
+    name: mirror-and-push
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          ref: master
+          fetch-depth: 0
 
-      - name: mirror
+      - name: Add remote and fetch
         run: |
-          git remote add --mirror=fetch mirror "https://github.com/jellyfin/jellyfin-vue.git" || exit 1
-          git fetch mirror +refs/heads/master:refs/remotes/origin/master || exit 1
-          git push --force --mirror --prune origin || exit 1
-          sleep 3
-          curl -X POST -d '' "${{ secrets.DEPLOY_HOOK }}"
+          git remote add upstream "https://github.com/jellyfin/jellyfin-vue.git"
+          git fetch upstream
+
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Update local master
+        run: |
+          git checkout master
+          git merge upstream/master
+
+      - name: Push to origin
+        run: |
+          git push origin master
