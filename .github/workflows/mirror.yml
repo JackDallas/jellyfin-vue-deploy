@@ -33,6 +33,6 @@ jobs:
 
       - name: Force update master branch
         run: |
-          git checkout master
+          git checkout origin/master
           git reset --hard upstream/master
           git push origin master --force
