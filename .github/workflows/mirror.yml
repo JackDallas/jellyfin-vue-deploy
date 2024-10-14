@@ -32,6 +32,5 @@ jobs:
 
       - name: Force update default branch
         run: |
-          DEFAULT_BRANCH=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
-          git reset --hard upstream/$DEFAULT_BRANCH
-          git push origin $DEFAULT_BRANCH --force
+          git reset --hard upstream/master
+          git push origin master --force
