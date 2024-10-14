@@ -41,8 +41,8 @@ jobs:
           git commit -m "remove workflows"
           git push origin master --force -v
 
-      - name: Trigger Deploy Hooks
-        run: !
+      - name: Force update master branch
+        run: |
           echo "Waiting for GitHub to prop"
           sleep 3
           curl -X POST -d '' "${{ secrets.DEPLOY_HOOK }}"
